@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Brain, Volume2, Sparkles, ArrowRight, Star,Search  } from "lucide-react";
 import { Globe } from "@//components/magicui/globe"
-import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 export const LandingPage = () => {
   const features = [
@@ -31,7 +31,6 @@ export const LandingPage = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
 
         <section className="relative overflow-hidden">
@@ -58,12 +57,14 @@ export const LandingPage = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                <Button
+                <Button asChild
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Get Started
+                  <Link to="/news">
+                    Get Started
                   <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
                 </Button>
 
                 <Button
@@ -79,7 +80,6 @@ export const LandingPage = () => {
             </div>
           </div>
         </section>
-
         <section className="py-20 bg-white/60 backdrop-blur-sm">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
