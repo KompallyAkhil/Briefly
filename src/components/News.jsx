@@ -1,6 +1,8 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import ArticleCart from "./ArticleCard";
 const GET_NEWS_BY_TOPIC = gql`
     query GetNewsByTopic($topic: String!) {
         getNews(topic : $topic){
@@ -18,30 +20,15 @@ const GET_NEWS_BY_TOPIC = gql`
         }
     }
 `
-const GET_EVERYTHING = gql`
-    query GetEverything($topic: String!) {
-        todayNews(topic: $topic) {
-            source {
-                id
-                name
-            }
-            author
-            title
-            description
-            url
-            urlToImage
-            publishedAt
-            content
-        }
-    }`
 
 const News = () => {
-    const [topic, setTopic] = useState("Dhoni on IPL 2026");
- 
+    const [topic, setTopic] = useState("");
+
     const [getNews, { loading, error, data }] = useLazyQuery(GET_NEWS_BY_TOPIC);
     const handleTopic = () => {
         getNews({ variables: { topic } })
-    }   
+    }
+   
 
     return (
         <>
@@ -54,45 +41,17 @@ const News = () => {
                             </h2>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <input
-                                type="text"
-                                value={topic}
-                                onChange={(e) => setTopic(e.target.value)}
-                                className="border border-gray-300 rounded-md px-4 py-2 w-full"
-                                placeholder="Enter topic"
-                            />
-                            <button
+                            <Input placeholder="Enter topic" type="text" value={topic} onChange={(e)=> setTopic(e.target.value)}/>
+                            <Button
                                 onClick={handleTopic}
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
                             >
                                 Get News
-                            </button>
+                            </Button>
                         </div>
                     </div>
-                    {data?.getNews && data?.getNews.map((news,index)=> (
-                        <div key={index} className="mt-6 p-4 border border-gray-200 rounded-md shadow-sm">
-                            <h3 className="text-xl font-semibold text-slate-800">{news.title}</h3>
-                            <p className="text-gray-600 mt-2">{news.description}</p>
-                            <a href={news.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2 block">
-                                Read more
-                            </a>
-                            {news.urlToImage && (
-                                <img src={news.urlToImage} alt={news.title} className="mt-4 w-full h-auto rounded-md" />
-                            )}
-                        </div>
-                    ))}
-                    {data?.todayNews && data?.todayNews.map((news,index)=> (
-                        <div key={index} className="mt-6 p-4 border border-gray-200 rounded-md shadow-sm">
-                            <h3 className="text-xl font-semibold text-slate-800">{news.title}</h3>
-                            <p className="text-gray-600 mt-2">{news.description}</p>
-                            <a href={news.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2 block">
-                                Read more
-                            </a>
-                            {news.urlToImage && (
-                                <img src={news.urlToImage} alt={news.title} className="mt-4 w-full h-auto rounded-md" />
-                            )}
-                        </div>
-                    ))}
+                    {data?.getNews && <ArticleCart data={data} />}
+
                 </div>
             </div>
         </>
