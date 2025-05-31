@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import ArticleCart from "./ArticleCard";
+import { toast } from "sonner";
 const GET_NEWS_BY_TOPIC = gql`
     query GetNewsByTopic($topic: String!) {
         getNews(topic : $topic){
@@ -26,9 +27,13 @@ const News = () => {
 
     const [getNews, { loading, error, data }] = useLazyQuery(GET_NEWS_BY_TOPIC);
     const handleTopic = () => {
+        if (topic.length === null || topic.length === 0) {
+            toast.error("Please enter a topic to get the latest news.");
+            return;
+        }
         getNews({ variables: { topic } })
     }
-   
+
 
     return (
         <>
@@ -41,7 +46,16 @@ const News = () => {
                             </h2>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <Input placeholder="Enter topic" type="text" value={topic} onChange={(e)=> setTopic(e.target.value)}/>
+                            <Input placeholder="Enter topic"
+                                type="text"
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleTopic();
+                                    }
+                                }}
+                            />
                             <Button
                                 onClick={handleTopic}
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
@@ -50,8 +64,12 @@ const News = () => {
                             </Button>
                         </div>
                     </div>
+                    {topic.length === 0 && (
+                        <div className="mt-4 text-gray-500">
+                            Please enter a topic to get the latest news.
+                        </div>
+                    )}
                     {data?.getNews && <ArticleCart data={data} />}
-
                 </div>
             </div>
         </>

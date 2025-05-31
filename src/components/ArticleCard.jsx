@@ -5,7 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Clock, User } from "lucide-react";
 import AudioPlayer from "./AudioPlayer";
 import AISummary from "./AISummary";
-
+import { gql, useLazyQuery } from "@apollo/client";
+const GET_SUMMARY = gql`
+  query GetSummary($newsTopic: String!) {
+    getSummary(newsTopic: $newsTopic)
+  }
+`;
 const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-IN", {
         day: "numeric",
@@ -17,7 +22,9 @@ const ArticleCart = ({ data }) => {
     const [showAISummary, setShowAISummary] = useState(false);
     const [showFullContent, setShowFullContent] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-     const handleToggleAISummary = (index) => {
+    const [getSummary , {loading,error,dataAI}] = useLazyQuery(GET_SUMMARY);
+    const handleToggleAISummary = (index,description) => {
+       getSummary({ variables: { newsTopic: description } })
         setShowAISummary((prev) => ({
             ...prev,
             [index]: !prev[index],
@@ -86,13 +93,12 @@ const ArticleCart = ({ data }) => {
                             <span>{formatDate(article.publishedAt)}</span>
                         </div>
                     </CardHeader>
-
                     <CardContent className="pt-0">
                         <div className="flex flex-wrap gap-2 mb-4">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handleToggleAISummary(index)}
+                                onClick={() => handleToggleAISummary(index,article.description)}
                                 className="flex items-center space-x-2"
                             >
                                 <span>🤖</span>
@@ -115,7 +121,7 @@ const ArticleCart = ({ data }) => {
                             </Button>
                         </div>
 
-                       {showAISummary[index] && <AISummary article={article} />}
+                        {showAISummary[index] && <AISummary article={article} />}
 
                         {showFullContent[index] && (
                             <div className="mt-4 p-4 bg-slate-50 rounded-lg animate-fade-in">

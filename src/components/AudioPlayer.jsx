@@ -2,17 +2,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Volume2, VolumeOff } from "lucide-react";
-// import { useToast } from "@/hooks/use-toast";
 
+import { toast } from "sonner";
 
 
 const AudioPlayer = ({ text, title, isPlaying, onPlayingChange }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
-//   const { toast } = useToast();
 
   const speakText = () => {
     if ('speechSynthesis' in window) {
-      // Stop any current speech
+      
       window.speechSynthesis.cancel();
 
       if (isSpeaking) {
@@ -29,10 +28,7 @@ const AudioPlayer = ({ text, title, isPlaying, onPlayingChange }) => {
       utterance.onstart = () => {
         setIsSpeaking(true);
         onPlayingChange(true);
-        // toast({
-        //   title: "🎧 Now Reading",
-        //   description: title,
-        // });
+        toast.success("🎧 Now Reading");
       };
 
       utterance.onend = () => {
@@ -43,20 +39,12 @@ const AudioPlayer = ({ text, title, isPlaying, onPlayingChange }) => {
       utterance.onerror = () => {
         setIsSpeaking(false);
         onPlayingChange(false);
-        // toast({
-        //   title: "Audio Error",
-        //   description: "Unable to play audio. Please try again.",
-        //   variant: "destructive",
-        // });
+        toast.error( "Unable to play audio. Please try again.");
       };
 
       window.speechSynthesis.speak(utterance);
     } else {
-    //   toast({
-    //     title: "Audio Not Supported",
-    //     description: "Your browser doesn't support text-to-speech.",
-    //     variant: "destructive",
-    //   });
+      toast.error("Your browser doesn't support text-to-speech.");
     }
   };
 
