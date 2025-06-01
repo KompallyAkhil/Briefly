@@ -8,12 +8,12 @@ function App() {
 
   return (
     <>
+      <SmoothCursor />
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path='/news' element={<News/>}/>
       </Routes>
-      <SmoothCursor />
       <Toaster positon="bottom-right" richColors />
     </>
   )

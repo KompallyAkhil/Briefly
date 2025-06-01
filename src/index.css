@@ -65,4 +65,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  a:not([disabled]),
+  [role="link"]:not([disabled]) {
+    cursor: none;
+  }
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: none;
+  }
 }

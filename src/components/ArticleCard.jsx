@@ -5,13 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Clock, User } from "lucide-react";
 import AudioPlayer from "./AudioPlayer";
 import AISummary from "./AISummary";
-import { gql, useLazyQuery } from "@apollo/client";
-
-const GET_SUMMARY = gql`
-  query GetSummary($newsTopic: String!) {
-    getSummary(newsTopic: $newsTopic)
-  }
-`;
+import { useLazyQuery } from "@apollo/client";
+import { GET_SUMMARY } from "./Query";
 
 const formatDate = (dateString) =>
   new Date(dateString).toLocaleDateString("en-IN", {
@@ -61,7 +56,7 @@ const ArticleCart = ({ data }) => {
               <img
                 src={article.urlToImage}
                 alt={article.title}
-                className="mt-4 w-full h-auto rounded-md group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full rounded-md group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
@@ -120,7 +115,7 @@ const ArticleCart = ({ data }) => {
             </div>
 
             {showAISummary[index] && AiData?.getSummary && (
-              <AISummary AiData={AiData.getSummary} article={article} />
+              <AISummary AiData={AiData.getSummary} loading={loading} />
             )}
 
             {showFullContent[index] && (

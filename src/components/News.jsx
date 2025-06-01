@@ -1,26 +1,11 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import ArticleCart from "./ArticleCard";
 import { toast } from "sonner";
-const GET_NEWS_BY_TOPIC = gql`
-    query GetNewsByTopic($topic: String!) {
-        getNews(topic : $topic){
-            source{
-              id
-              name
-            }
-            author
-            title
-            description
-            url
-            urlToImage
-            publishedAt
-            content
-        }
-    }
-`
+import { GET_NEWS_BY_TOPIC } from "./Query";
+
 
 const News = () => {
     const [topic, setTopic] = useState("");
