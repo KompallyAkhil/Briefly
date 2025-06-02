@@ -114,9 +114,9 @@ const ArticleCart = ({ data }) => {
               </Button>
             </div>
 
-            {showAISummary[index] && AiData?.getSummary && (
-              <AISummary AiData={AiData.getSummary} loading={loading} />
-            )}
+            {showAISummary[index] && 
+              <AISummary AiData={AiData?.getSummary} loading={loading} />
+            }
 
             {showFullContent[index] && (
               <div className="mt-4 p-4 bg-slate-50 rounded-lg animate-fade-in">

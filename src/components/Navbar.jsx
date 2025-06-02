@@ -1,7 +1,10 @@
 import { Zap } from "lucide-react";
 import { Button } from "./ui/button.jsx"
 import { Link } from "react-router-dom";
+import { UserButton, useClerk, useUser } from '@clerk/clerk-react'
 const Navbar = () => {
+    const { openSignIn } = useClerk();
+    const { user } = useUser();
     return (
         <>
             <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
@@ -20,8 +23,14 @@ const Navbar = () => {
                                 </div>
                             </div>
                         </Link>
-                        <div className="flex items-center">
-                            <Button variant="outline" size="sm" className="flex items-center space-x-2">Login</Button>
+                        <div className="md:flex-col items-center space-x-4">
+                            {user ? <UserButton /> : <Button
+                                onClick={() => openSignIn()}
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                            >
+                                Sign In
+                            </Button>
+                            }
                         </div>
                     </div>
                 </div>

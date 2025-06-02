@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, TrendingUp } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton"
 const AISummary = ({ AiData, loading }) => {
   const [insights, setInsights] = useState(null);
 
