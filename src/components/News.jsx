@@ -5,12 +5,26 @@ import { Input } from "@/components/ui/input"
 import ArticleCart from "./ArticleCard";
 import { toast } from "sonner";
 import { GET_NEWS_BY_TOPIC } from "./Query";
-
+import { setTopic } from "../app/slices/topicSlice";
+import { useSelector, useDispatch } from 'react-redux'
+import { setData, setError, setLoading } from "../app/slices/dataSlice";
 
 const News = () => {
-    const [topic, setTopic] = useState("");
+    const dispatch = useDispatch();
+    const topic = useSelector((state) => state.topic.topic);
+    const { loading, error, data: newsData } = useSelector((state) => state.data);
 
-    const [getNews, { loading, error, data }] = useLazyQuery(GET_NEWS_BY_TOPIC);
+    const [getNews] = useLazyQuery(GET_NEWS_BY_TOPIC,{
+        onCompleted : (data) => {
+            dispatch(setData(data.getNews));
+            dispatch(setLoading(false));
+            dispatch(setError(null));
+        },
+        onError : (error) => {
+            dispatch(setError(error.message));
+            dispatch(setLoading(false));
+        }
+    });
     const handleTopic = () => {
         if (topic.length === null || topic.length === 0) {
             toast.error("Please enter a topic to get the latest news.");
@@ -18,7 +32,6 @@ const News = () => {
         }
         getNews({ variables: { topic } })
     }
-
 
     return (
         <>
@@ -34,7 +47,7 @@ const News = () => {
                             <Input placeholder="Enter topic"
                                 type="text"
                                 value={topic}
-                                onChange={(e) => setTopic(e.target.value)}
+                                onChange={(e) => dispatch(setTopic(e.target.value))}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
                                         handleTopic();
@@ -42,7 +55,7 @@ const News = () => {
                                 }}
                             />
                             <Button
-                                onClick={handleTopic}
+                                onClick={handleTopic}  
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
                             >
                                 Get News
@@ -54,7 +67,7 @@ const News = () => {
                             Please enter a topic to get the latest news.
                         </div>
                     )}
-                    {data?.getNews && <ArticleCart data={data} />}
+                    {newsData?.length > 0 && <ArticleCart data={ newsData} />}
                 </div>
             </div>
         </>

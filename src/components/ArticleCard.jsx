@@ -45,7 +45,7 @@ const ArticleCart = ({ data }) => {
 
   return (
     <>
-      {data?.getNews.map((article, index) => (
+      {data?.map((article, index) => (
         <Card
           key={index}
           className="overflow-hidden hover:shadow-lg transition-all duration-300 animate-fade-in group mt-6"
