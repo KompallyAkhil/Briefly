@@ -1,5 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import ArticleCart from "./ArticleCard";
@@ -8,12 +8,20 @@ import { GET_NEWS_BY_TOPIC } from "./Query";
 import { setTopic } from "../app/slices/topicSlice";
 import { useSelector, useDispatch } from 'react-redux'
 import { setData, setError, setLoading } from "../app/slices/dataSlice";
-
+import { useAuth } from '@clerk/clerk-react';
+import { useNavigate } from "react-router-dom";
 const News = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isSignedIn } = useAuth();
+    useEffect(() => {
+        if(!isSignedIn) {
+            navigate('/');
+        }
+    },[isSignedIn, navigate]);
+  
     const topic = useSelector((state) => state.topic.topic);
     const { loading, error, data: newsData } = useSelector((state) => state.data);
-
     const [getNews] = useLazyQuery(GET_NEWS_BY_TOPIC,{
         onCompleted : (data) => {
             dispatch(setData(data.getNews));
