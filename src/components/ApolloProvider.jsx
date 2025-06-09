@@ -5,9 +5,9 @@ import {
   InMemoryCache,
   ApolloProvider as Provider,
 } from '@apollo/client';
-
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const client = new ApolloClient({
-  uri: 'https://briefly-backend-iota.vercel.app/graphql',
+  uri: backendUrl,
   cache: new InMemoryCache(),
 });
 
