@@ -18,7 +18,7 @@
 
 ## 🌐 Live Demo
 
-🚀 Try it out: [AntherFeed Live](https://antherfeed.vercel.app/)
+🚀 Try it out: [Briefly Live](https://briefly-xi.vercel.app/)
 
 ---
 
@@ -37,7 +37,6 @@
 - **Apollo Server (GraphQL)** – API built with schema-first GraphQL architecture
 - **Redis** – High-speed caching and session storage
 - **Node.js + Express** – Server framework
-- **JWT Authentication** – Secure token-based user sessions
 
 ---
 
