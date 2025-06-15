@@ -46,6 +46,15 @@
 
 ```bash
 git clone https://github.com/KompallyAkhil/Briefly
-cd AntherFeed
+cd frontend
 npm install
 npm run dev
+
+
+### 1️⃣ Frontend Setup
+
+```bash
+git clone https://github.com/KompallyAkhil/Briefly-Backend
+cd backend
+npm install
+nodemon index.js
