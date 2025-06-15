@@ -42,19 +42,20 @@
 
 ## 🧪 Installation & Setup
 
-### 1️⃣ Frontend Setup
+### Frontend Setup
 
 ```bash
 git clone https://github.com/KompallyAkhil/Briefly
 cd frontend
 npm install
 npm run dev
+```
 
-
-### 1️⃣ Frontend Setup
+### Backend Setup
 
 ```bash
 git clone https://github.com/KompallyAkhil/Briefly-Backend
 cd backend
 npm install
 nodemon index.js
+```
