@@ -4,8 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Zap, Brain, Volume2, Sparkles, ArrowRight, Star,Search  } from "lucide-react";
 import { Globe } from "@//components/magicui/globe"
 import { Link } from "react-router-dom";
-
+import { useAuth } from '@clerk/clerk-react';
+import { toast } from "sonner";
 export const LandingPage = () => {
+  const { isSignedIn } = useAuth();
   const features = [
     {
       icon: Brain,
@@ -57,7 +59,11 @@ export const LandingPage = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                <Button asChild
+                <Button asChild onClick={() => {
+                  if (!isSignedIn) {
+                    toast.error("Please login to get started");
+                  } 
+                }}
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
